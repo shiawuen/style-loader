@@ -13,9 +13,9 @@ var stylesInDom = {},
 	isOldIE = memoize(function() {
 		return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
 	}),
-	getHeadElement = memoize(function () {
+	getHeadElement = function () {
 		return document.head || document.getElementsByTagName("head")[0];
-	}),
+	},
 	singletonElement = null,
 	singletonCounter = 0,
 	styleElementsInsertedAtTop = [];
@@ -100,7 +100,7 @@ function listToStyles(list) {
 }
 
 function insertStyleElement(options, styleElement) {
-	var head = getHeadElement();
+	var head = options.insertAt instanceof HTMLElement ? options.insertAt : getHeadElement();
 	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
 	if (options.insertAt === "top") {
 		if(!lastStyleElementInsertedAtTop) {
